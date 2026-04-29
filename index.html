@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>João Santos — Web, WordPress & Sistemas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --black: #0d0d0d;
+            --off-white: #f5f2ed;
+            --cream: #ece8df;
+            --green: #1a7a6e;
+            --green-mid: #2da090;
+            --green-light: #c8ede8;
+            --orange: #f07a1a;
+            --orange-light: #fde8cf;
+            --orange-muted: #c4622a;
+            --muted: #8a8070;
+            --border: rgba(13,13,13,0.12);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--off-white);
+            color: var(--black);
+            overflow-x: hidden;
+        }
+
+        /* ─── NAV ─────────────────────────────── */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 200;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.1rem 4rem;
+            background: rgba(245,242,237,0.85);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-logo {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--black);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-logo span { color: var(--orange); }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 0.88rem;
+            font-weight: 500;
+            color: var(--muted);
+            text-decoration: none;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover { color: var(--black); }
+
+        /* ─── HERO ─────────────────────────────── */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 8rem 0 5rem;
+            position: relative;
+            overflow: hidden;
+            background: var(--black);
+        }
+
+        .hero-bg-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(100px, 18vw, 260px);
+            font-weight: 800;
+            color: rgba(255,255,255,0.03);
+            white-space: nowrap;
+            pointer-events: none;
+            letter-spacing: -0.04em;
+            user-select: none;
+        }
+
+        .hero-noise {
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
+        .hero-glow {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(26,122,110,0.25) 0%, transparent 70%);
+            top: -100px;
+            right: -100px;
+            pointer-events: none;
+            animation: drift 10s ease-in-out infinite;
+        }
+
+        .hero-glow-2 {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(240,122,26,0.15) 0%, transparent 70%);
+            bottom: 0;
+            left: 10%;
+            pointer-events: none;
+            animation: drift 14s ease-in-out infinite reverse;
+        }
+
+        @keyframes drift {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, 20px); }
+        }
+
+        .hero-inner {
+            position: relative;
+            z-index: 2;
+            max-width: 100%;
+        }
+
+        .hero-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(26,122,110,0.2);
+            border: 1px solid rgba(26,122,110,0.4);
+            color: var(--green-mid);
+            padding: 0.4rem 1rem;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            animation: fadeUp 0.7s ease both;
+        }
+
+        .hero-tag::before {
+            content: '';
+            width: 7px; height: 7px;
+            border-radius: 50%;
+            background: var(--green-mid);
+            animation: pulse 2s ease infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
+
+        .hero h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2.8rem, 6vw, 5.5rem);
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.0;
+            letter-spacing: -0.03em;
+            margin-bottom: 2rem;
+            animation: fadeUp 0.7s 0.1s ease both;
+        }
+
+        .hero h1 em {
+            font-style: normal;
+            color: var(--orange);
+        }
+
+        .hero-desc {
+            max-width: 560px;
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.6);
+            line-height: 1.7;
+            margin-bottom: 3rem;
+            animation: fadeUp 0.7s 0.2s ease both;
+            font-weight: 300;
+        }
+
+        .hero-desc strong {
+            color: rgba(255,255,255,0.9);
+            font-weight: 500;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            animation: fadeUp 0.7s 0.3s ease both;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.9rem 1.8rem;
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            text-decoration: none;
+            border: none;
+        }
+
+        .btn-orange {
+            background: var(--orange);
+            color: #fff;
+        }
+
+        .btn-orange:hover {
+            background: var(--orange-muted);
+            transform: translateY(-2px);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: rgba(255,255,255,0.7);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .btn-ghost:hover {
+            background: rgba(255,255,255,0.07);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .hero-stats {
+            position: absolute;
+            bottom: 3rem;
+            right: calc((100% - 1100px) / 2 + 4rem);
+            display: flex;
+            gap: 3rem;
+            z-index: 2;
+            animation: fadeUp 0.7s 0.4s ease both;
+        }
+
+        .stat {
+            text-align: right;
+        }
+
+        .stat-num {
+            font-family: 'Syne', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #fff;
+            line-height: 1;
+        }
+
+        .stat-num span { color: var(--orange); }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.4);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-top: 0.3rem;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ─── SECTION BASE ─────────────────────── */
+        .wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 4rem;
+        }
+
+        section { padding: 7rem 0; }
+
+        .section-eyebrow {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--orange);
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: var(--black);
+            line-height: 1.1;
+            margin-bottom: 3rem;
+        }
+
+        .section-title em {
+            font-style: normal;
+            color: var(--green);
+        }
+
+        hr.divider {
+            border: none;
+            border-top: 1px solid var(--border);
+        }
+
+        /* ─── SOBRE ─────────────────────────────── */
+        #sobre { background: var(--off-white); }
+
+        .sobre-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 5rem;
+            align-items: start;
+        }
+
+        .sobre-text p {
+            font-size: 1.05rem;
+            color: #4a4540;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+        }
+
+        .sobre-text p strong {
+            color: var(--black);
+            font-weight: 500;
+        }
+
+        .sobre-highlight {
+            background: var(--black);
+            color: var(--off-white);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 2rem;
+            font-family: 'Syne', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 600;
+            line-height: 1.5;
+        }
+
+        .sobre-highlight span { color: var(--orange); }
+
+        .skills-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .skill-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.2rem 1.5rem;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            transition: all 0.25s;
+        }
+
+        .skill-row:hover {
+            border-color: var(--orange);
+            transform: translateX(6px);
+        }
+
+        .skill-icon {
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+
+        .skill-info h4 {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--black);
+        }
+
+        .skill-info p {
+            font-size: 0.82rem;
+            color: var(--muted);
+            margin-top: 0.15rem;
+        }
+
+        /* ─── SERVIÇOS ──────────────────────────── */
+        #servicos { background: var(--black); }
+
+        #servicos .section-title { color: #fff; }
+        #servicos .section-eyebrow { color: var(--green-mid); }
+
+        .servicos-intro {
+            max-width: 600px;
+            font-size: 1.05rem;
+            color: rgba(255,255,255,0.5);
+            line-height: 1.7;
+            margin-bottom: 4rem;
+            font-weight: 300;
+        }
+
+        .servicos-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .serv-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px;
+            padding: 2.2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .serv-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--green), var(--orange));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .serv-card:hover {
+            background: rgba(255,255,255,0.07);
+            border-color: rgba(255,255,255,0.15);
+            transform: translateY(-4px);
+        }
+
+        .serv-card:hover::before { opacity: 1; }
+
+        .serv-icon {
+            font-size: 2rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .serv-card h3 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.8rem;
+        }
+
+        .serv-card p {
+            font-size: 0.88rem;
+            color: rgba(255,255,255,0.45);
+            line-height: 1.6;
+        }
+
+        .serv-tag {
+            display: inline-block;
+            margin-top: 1.2rem;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--orange);
+            border: 1px solid rgba(240,122,26,0.3);
+            padding: 0.3rem 0.7rem;
+            border-radius: 100px;
+        }
+
+        /* ─── COMO TRABALHO ─────────────────────── */
+        #processo { background: var(--cream); }
+
+        .processo-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .passo {
+            position: relative;
+        }
+
+        .passo-num {
+            font-family: 'Syne', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: rgba(0,0,0,0.07);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .passo h3 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--black);
+            margin-bottom: 0.6rem;
+        }
+
+        .passo p {
+            font-size: 0.88rem;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .passo-line {
+            position: absolute;
+            top: 1.7rem;
+            right: -1rem;
+            width: 2rem;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .passo:last-child .passo-line { display: none; }
+
+        /* ─── EXPERIÊNCIA ───────────────────────── */
+        #experiencia { background: var(--off-white); }
+
+        .exp-list { display: flex; flex-direction: column; gap: 0; }
+
+        .exp-item {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 3rem;
+            padding: 3rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .exp-item:first-child { border-top: 1px solid var(--border); }
+
+        .exp-meta {}
+
+        .exp-period {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--orange);
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .exp-duration {
+            font-size: 0.78rem;
+            color: var(--muted);
+            margin-top: 0.3rem;
+        }
+
+        .exp-content h3 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--black);
+            margin-bottom: 0.3rem;
+        }
+
+        .exp-company {
+            font-size: 0.88rem;
+            color: var(--green);
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .exp-content p {
+            font-size: 0.95rem;
+            color: var(--muted);
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        .exp-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            background: var(--cream);
+            color: var(--black);
+            border: 1px solid var(--border);
+            padding: 0.3rem 0.8rem;
+            border-radius: 100px;
+            font-size: 0.78rem;
+            font-weight: 500;
+        }
+
+        /* ─── PROJETOS ──────────────────────────── */
+        #projetos { background: var(--off-white); border-top: 1px solid var(--border); }
+
+        .proj-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .proj-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .proj-card:hover {
+            border-color: var(--orange);
+            box-shadow: 0 8px 30px rgba(240,122,26,0.12);
+            transform: translateY(-4px);
+        }
+
+        .proj-head {
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--black), #1a3a35);
+            color: white;
+        }
+
+        .proj-eyebrow {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--green-mid);
+            font-weight: 600;
+            margin-bottom: 0.6rem;
+        }
+
+        .proj-head h3 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 700;
+        }
+
+        .proj-body {
+            padding: 1.5rem 2rem 2rem;
+        }
+
+        .proj-body p {
+            font-size: 0.9rem;
+            color: var(--muted);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .proj-techs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .tech {
+            background: var(--cream);
+            color: var(--green);
+            padding: 0.25rem 0.7rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* ─── CTA CONTATO ───────────────────────── */
+        #contato {
+            background: var(--green);
+            color: white;
+        }
+
+        .contato-inner {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+        }
+
+        .contato-text h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: #fff;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+
+        .contato-text h2 span { color: var(--orange-light); }
+
+        .contato-text p {
+            font-size: 1rem;
+            color: rgba(255,255,255,0.7);
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+
+        .contato-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .contato-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 12px;
+            transition: all 0.25s;
+        }
+
+        .contato-item:hover {
+            background: rgba(255,255,255,0.15);
+            transform: translateX(5px);
+        }
+
+        .contato-item-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .contato-item-text {
+            flex: 1;
+        }
+
+        .contato-item-label {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 0.2rem;
+        }
+
+        .contato-item-value {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #fff;
+        }
+
+        .contato-item-value a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .btn-white {
+            background: #fff;
+            color: var(--green);
+            font-weight: 600;
+        }
+
+        .btn-white:hover {
+            background: var(--off-white);
+            transform: translateY(-2px);
+        }
+
+        .btn-white-outline {
+            background: transparent;
+            color: #fff;
+            border: 1.5px solid rgba(255,255,255,0.4);
+        }
+
+        .btn-white-outline:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-2px);
+        }
+
+        /* ─── FOOTER ─────────────────────────────── */
+        footer {
+            background: var(--black);
+            color: rgba(255,255,255,0.3);
+            text-align: center;
+            padding: 2rem 4rem;
+            font-size: 0.82rem;
+        }
+
+        /* ─── RESPONSIVE ────────────────────────── */
+        @media (max-width: 900px) {
+            nav { padding: 1rem 2rem; }
+            .nav-links { gap: 1.2rem; }
+            .wrap { padding: 0 2rem; }
+            .hero { padding: 7rem 0 5rem; }
+            .hero-stats { right: 2rem; gap: 1.5rem; }
+            .sobre-grid { grid-template-columns: 1fr; gap: 3rem; }
+            .servicos-grid { grid-template-columns: repeat(2, 1fr); }
+            .processo-grid { grid-template-columns: repeat(2, 1fr); }
+            .proj-grid { grid-template-columns: 1fr; }
+            .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
+            .contato-inner { grid-template-columns: 1fr; gap: 3rem; }
+            #experiencia .wrap > div[style*="grid"] { grid-template-columns: 1fr !important; }
+            #github .wrap > div[style*="grid"] { grid-template-columns: 1fr !important; }
+        }
+
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 2.5rem; }
+            .nav-links { display: none; }
+            .hero-stats { position: relative; bottom: auto; right: auto; flex-direction: row; margin-top: 3rem; }
+            .stat { text-align: left; }
+            .servicos-grid { grid-template-columns: 1fr; }
+            .processo-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+    <a href="#" class="nav-logo">João<span>.</span></a>
+    <ul class="nav-links">
+        <li><a href="#sobre">Sobre</a></li>
+
+        <li><a href="#experiencia">Experiência</a></li>
+        <li><a href="https://github.com/joaopinheiros" target="_blank">GitHub</a></li>
+        <li><a href="#contato">Contato</a></li>
+    </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-bg-text">JOÃO</div>
+    <div class="hero-noise"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-glow-2"></div>
+
+    <div class="wrap" style="position:relative;z-index:2;">
+    <div class="hero-inner">
+        <div class="hero-tag">Disponível para projetos</div>
+
+        <h1>
+            Servidor fora do ar<br>
+            às 3h da manhã?<br>
+            <em>Eu resolvo.</em>
+        </h1>
+
+        <p class="hero-desc">
+            Sou João Santos, especialista em <strong>hospedagem web, WordPress e desenvolvimento de sites e sistemas</strong>.
+            Atuo na linha de frente de ambientes em produção, resolvendo o que ninguém mais consegue explicar.
+            Sem burocracia, sem enrolação.
+        </p>
+
+        <div class="hero-actions">
+            <a href="#contato" class="btn btn-orange">Falar comigo →</a>
+            <a href="#sobre" class="btn btn-ghost">Sobre mim</a>
+        </div>
+    </div>
+    </div>
+
+    <div class="hero-stats">
+        <div class="stat">
+            <div class="stat-num">2<span>+</span></div>
+            <div class="stat-label">Anos em produção</div>
+        </div>
+        <div class="stat">
+            <div class="stat-num">∞</div>
+            <div class="stat-label">Problemas resolvidos</div>
+        </div>
+        <div class="stat">
+            <div class="stat-num">0<span>h</span></div>
+            <div class="stat-label">Downtime tolerado</div>
+        </div>
+    </div>
+</section>
+
+<!-- SOBRE -->
+<section id="sobre">
+    <div class="wrap">
+        <span class="section-eyebrow">Quem sou eu</span>
+        <div class="sobre-grid">
+            <div class="sobre-text">
+                <h2 class="section-title">Técnico de verdade,<br><em>não só no papel.</em></h2>
+
+                <p>Sou especializado em resolver problemas técnicos em ambientes de <strong>hospedagem web e WordPress</strong>. Com experiência real, lidando com falhas em produção todos os dias. Não fico só apontando onde o problema está: vou lá e corrijo.</p>
+
+                <p>Já passei por erros 403, 500, sites fora do ar sem motivo aparente, plugins quebrando deploy, banco de dados travado, DNS apontando para lugar errado, SMTP na blacklist... <strong>sei o que é pressão de verdade</strong> e sei como agir com calma e eficiência.</p>
+
+                <p>Além do suporte técnico, também <strong>crio sites e sistemas</strong>, de landing pages a aplicações completas com backend, API e banco de dados. Atuo em todo o ciclo: do código ao servidor funcionando.</p>
+
+                <div class="sobre-highlight">
+                    "Meu objetivo é simples: identificar o problema, <span>corrigir</span> e deixar o ambiente funcionando de forma estável."
+                </div>
+            </div>
+
+            <div class="skills-stack">
+                <div class="skill-row">
+                    <div class="skill-icon">🖥️</div>
+                    <div class="skill-info">
+                        <h4>cPanel / WHM</h4>
+                        <p>Criação, migração, gestão de recursos, troubleshooting avançado</p>
+                    </div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-icon">⚡</div>
+                    <div class="skill-info">
+                        <h4>WordPress</h4>
+                        <p>Performance, segurança, malware removal, plugin/tema debug</p>
+                    </div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-icon">📡</div>
+                    <div class="skill-info">
+                        <h4>Apache / PHP / MySQL</h4>
+                        <p>Interpretação de logs, tuning, otimização de queries</p>
+                    </div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-icon">☁️</div>
+                    <div class="skill-info">
+                        <h4>Cloudflare / DNS / SSL</h4>
+                        <p>Configuração, troubleshooting, CDN, certificados</p>
+                    </div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-icon">✉️</div>
+                    <div class="skill-info">
+                        <h4>E-mail / SMTP / SPF / DKIM</h4>
+                        <p>Configuração, deliverability, remoção de blacklist</p>
+                    </div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-icon">💻</div>
+                    <div class="skill-info">
+                        <h4>Desenvolvimento</h4>
+                        <p>Java, PHP, Python, HTML/CSS, APIs REST, MySQL</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SERVIÇOS -->
+<section id="servicos">
+    <div class="wrap">
+        <span class="section-eyebrow">O que eu faço</span>
+        <h2 class="section-title" style="color:#fff;">Do zero ao ar.<br><em style="color:var(--green-mid);">Ou salvando o que estava no ar.</em></h2>
+        <p class="servicos-intro">Atuo tanto na criação quanto na manutenção. Se você precisa de um site novo ou do seu servidor funcionando de volta, é comigo.</p>
+
+        <div class="servicos-grid">
+            <div class="serv-card">
+                <div class="serv-icon">🌐</div>
+                <h3>Criação de Sites</h3>
+                <p>Sites profissionais do zero: landing pages, portfólios, sites institucionais e lojas. Design moderno, rápido e pensado para converter.</p>
+                <span class="serv-tag">WordPress · HTML/CSS · WooCommerce</span>
+            </div>
+            <div class="serv-card">
+                <div class="serv-icon">⚙️</div>
+                <h3>Sistemas & APIs</h3>
+                <p>Desenvolvimento de sistemas web e APIs REST sob medida. Automações, integrações com ferramentas externas e aplicações com backend robusto.</p>
+                <span class="serv-tag">Java · PHP · MySQL · Spring Boot</span>
+            </div>
+            <div class="serv-card">
+                <div class="serv-icon">🚑</div>
+                <h3>Emergência & Suporte</h3>
+                <p>Site fora do ar, erro crítico em produção, ataque, malware? Atendimento rápido, diagnóstico preciso e correção sem enrolação.</p>
+                <span class="serv-tag">Urgente · WordPress · cPanel</span>
+            </div>
+            <div class="serv-card">
+                <div class="serv-icon">📦</div>
+                <h3>Migração de Sites</h3>
+                <p>Migração segura entre servidores, sem perda de dados e com downtime mínimo. Cuido de tudo: DNS, SSL, banco, arquivos.</p>
+                <span class="serv-tag">Sem downtime · Backup garantido</span>
+            </div>
+            <div class="serv-card">
+                <div class="serv-icon">🚀</div>
+                <h3>Performance & Otimização</h3>
+                <p>WordPress lento? Cache mal configurado? Banco pesado? Faço diagnóstico completo e otimizo para máxima velocidade.</p>
+                <span class="serv-tag">Core Web Vitals · Cache · SEO</span>
+            </div>
+            <div class="serv-card">
+                <div class="serv-icon">🔐</div>
+                <h3>Segurança & Hardening</h3>
+                <p>Limpeza de malware, configuração de firewall, remoção de blacklist, hardening de servidor e boas práticas de segurança.</p>
+                <span class="serv-tag">Malware · SSL · Firewall</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- COMO TRABALHO -->
+<section id="processo">
+    <div class="wrap">
+        <span class="section-eyebrow">Como funciona</span>
+        <h2 class="section-title">Sem burocracia,<br><em>com clareza.</em></h2>
+
+        <div class="processo-grid">
+            <div class="passo">
+                <div class="passo-num">01</div>
+                <h3>Você me conta o problema</h3>
+                <p>Me descreve o que está acontecendo, sem precisar saber termos técnicos. Só me conta o que está vendo.</p>
+                <div class="passo-line"></div>
+            </div>
+            <div class="passo">
+                <div class="passo-num">02</div>
+                <h3>Eu diagnostico</h3>
+                <p>Analiso logs, acesso o servidor, reproduzo o erro. Identifico a causa raiz, não o sintoma.</p>
+                <div class="passo-line"></div>
+            </div>
+            <div class="passo">
+                <div class="passo-num">03</div>
+                <h3>Te explico e executo</h3>
+                <p>Comunico o que encontrei em linguagem direta, alinhamos a solução e executo com cuidado.</p>
+                <div class="passo-line"></div>
+            </div>
+            <div class="passo">
+                <div class="passo-num">04</div>
+                <h3>Ambiente estável</h3>
+                <p>Verifico que está tudo funcionando, deixo o ambiente monitorado e te passo orientações se precisar.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- EXPERIÊNCIA -->
+<section id="experiencia">
+    <div class="wrap">
+        <span class="section-eyebrow">Experiência</span>
+        <h2 class="section-title">Mais de 1 ano na linha<br><em>de frente da hospedagem.</em></h2>
+
+        <div style="display:grid; grid-template-columns:1.1fr 1fr; gap:4rem; align-items:start;">
+            <div>
+                <p style="font-size:1.05rem; color:#4a4540; line-height:1.9; margin-bottom:1.5rem; font-weight:300;">
+                    Desde meados de 2024, atuo diariamente em ambiente de hospedagem web gerenciada, lidando com tudo que acontece em produção: sites fora do ar, erros críticos de servidor, falhas de banco de dados, problemas de DNS, SSL mal configurado e e-mail na blacklist.
+                </p>
+                <p style="font-size:1.05rem; color:#4a4540; line-height:1.9; margin-bottom:1.5rem; font-weight:300;">
+                    Não é teoria. É rotina. <strong style="color:var(--black);">Cada problema resolvido virou repertório</strong>, e esse repertório é o que me permite agir rápido e certeiro quando algo dá errado.
+                </p>
+                <p style="font-size:1.05rem; color:#4a4540; line-height:1.9; font-weight:300;">
+                    Além disso, também exerço liderança técnica de equipe, o que me deu visão de processo, comunicação e tomada de decisão sob pressão.
+                </p>
+            </div>
+
+            <div style="display:flex; flex-direction:column; gap:1.2rem;">
+                <div style="padding:1.8rem; background:white; border:1px solid var(--border); border-radius:12px; border-left:4px solid var(--orange);">
+                    <div style="font-family:'Syne',sans-serif; font-size:0.78rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:var(--orange); margin-bottom:0.5rem;">Hoje</div>
+                    <div style="font-family:'Syne',sans-serif; font-size:1.05rem; font-weight:700; color:var(--black); margin-bottom:0.4rem;">Suporte Técnico & Liderança</div>
+                    <div style="font-size:0.88rem; color:var(--muted); line-height:1.6;">Hospedagem web · cPanel/WHM · WordPress · Infraestrutura em produção</div>
+                </div>
+                <div style="padding:1.8rem; background:white; border:1px solid var(--border); border-radius:12px; border-left:4px solid var(--border);">
+                    <div style="font-family:'Syne',sans-serif; font-size:0.78rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); margin-bottom:0.5rem;">Anterior</div>
+                    <div style="font-family:'Syne',sans-serif; font-size:1.05rem; font-weight:700; color:var(--black); margin-bottom:0.4rem;">Suporte de TI · Dados & Análise</div>
+                    <div style="font-size:0.88rem; color:var(--muted); line-height:1.6;">Redes locais · Hardware · Excel · Dashboards</div>
+                </div>
+                <div style="padding:1.8rem; background:var(--black); border-radius:12px;">
+                    <div style="font-family:'Syne',sans-serif; font-size:0.78rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:var(--orange); margin-bottom:0.5rem;">Formação</div>
+                    <div style="font-family:'Syne',sans-serif; font-size:1.05rem; font-weight:700; color:white; margin-bottom:0.4rem;">Sistemas de Informação</div>
+                    <div style="font-size:0.88rem; color:rgba(255,255,255,0.45); line-height:1.6;">Certificação Spring Boot & RESTful · AlgaWorks</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- GITHUB -->
+<section id="github" style="background:#1e1030; border-top: 1px solid rgba(255,255,255,0.06);">
+    <div class="wrap">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:center;">
+            <div>
+                <span style="display:inline-block; font-size:0.75rem; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:#a78bfa; margin-bottom:1rem;">Portfólio técnico</span>
+                <h2 style="font-family:'Syne',sans-serif; font-size:clamp(2rem,4vw,3rem); font-weight:800; letter-spacing:-0.03em; color:#fff; line-height:1.1; margin-bottom:1.5rem;">O código fala<br><span style="color:#a78bfa;">por si mesmo.</span></h2>
+                <p style="font-size:1rem; color:rgba(255,255,255,0.5); line-height:1.8; margin-bottom:2.5rem; font-weight:300;">Sistemas, integrações e experimentos que eu construí. Se você quer entender como eu penso e escrevo código, é por aqui.</p>
+                <a href="https://github.com/joaopinheiros" target="_blank" style="display:inline-flex; align-items:center; gap:0.6rem; background:#7c3aed; color:#fff; padding:1rem 2rem; border-radius:8px; font-size:0.95rem; font-weight:600; text-decoration:none; transition:all 0.25s; font-family:'DM Sans',sans-serif;" onmouseover="this.style.background='#6d28d9'; this.style.transform='translateY(-2px)'" onmouseout="this.style.background='#7c3aed'; this.style.transform='translateY(0)'">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                    github.com/joaopinheiros
+                </a>
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+                <div style="padding:1.5rem; background:rgba(124,58,237,0.12); border:1px solid rgba(124,58,237,0.2); border-radius:12px;">
+                    <div style="font-size:1.8rem; margin-bottom:0.5rem;">☕</div>
+                    <div style="font-family:'Syne',sans-serif; font-size:0.9rem; font-weight:700; color:#fff; margin-bottom:0.3rem;">Java & Spring</div>
+                    <div style="font-size:0.8rem; color:rgba(255,255,255,0.4);">Sistemas backend robustos</div>
+                </div>
+                <div style="padding:1.5rem; background:rgba(124,58,237,0.12); border:1px solid rgba(124,58,237,0.2); border-radius:12px;">
+                    <div style="font-size:1.8rem; margin-bottom:0.5rem;">🐘</div>
+                    <div style="font-family:'Syne',sans-serif; font-size:0.9rem; font-weight:700; color:#fff; margin-bottom:0.3rem;">PHP & APIs</div>
+                    <div style="font-size:0.8rem; color:rgba(255,255,255,0.4);">Integrações e automações</div>
+                </div>
+                <div style="padding:1.5rem; background:rgba(124,58,237,0.12); border:1px solid rgba(124,58,237,0.2); border-radius:12px;">
+                    <div style="font-size:1.8rem; margin-bottom:0.5rem;">🛢️</div>
+                    <div style="font-family:'Syne',sans-serif; font-size:0.9rem; font-weight:700; color:#fff; margin-bottom:0.3rem;">MySQL</div>
+                    <div style="font-size:0.8rem; color:rgba(255,255,255,0.4);">Modelagem e queries</div>
+                </div>
+                <div style="padding:1.5rem; background:rgba(167,139,250,0.08); border:1px dashed rgba(167,139,250,0.25); border-radius:12px; display:flex; align-items:center; justify-content:center; text-align:center;">
+                    <div style="font-size:0.82rem; color:rgba(255,255,255,0.35); line-height:1.5;">mais no<br><span style="color:#a78bfa; font-weight:600;">GitHub →</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CONTATO -->
+<section id="contato">
+    <div class="wrap">
+        <div class="contato-inner">
+            <div class="contato-text">
+                <h2>Precisa de um <span>especialista</span> agora?</h2>
+                <p>Seja para um site novo, um sistema do zero ou um servidor que parou de funcionar, me chama. Respondo rápido e começo a resolver rápido.</p>
+                <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+                    <a href="mailto:seu-email@example.com" class="btn btn-white">Enviar e-mail →</a>
+                    <a href="https://www.linkedin.com/in/joaovitorpinheiros/" target="_blank" class="btn btn-white-outline">LinkedIn</a>
+                </div>
+            </div>
+
+            <div class="contato-info">
+                <div class="contato-item">
+                    <div class="contato-item-icon">📍</div>
+                    <div class="contato-item-text">
+                        <div class="contato-item-label">Localização</div>
+                        <div class="contato-item-value">Diamantina, MG — Brasil</div>
+                    </div>
+                </div>
+                <div class="contato-item">
+                    <div class="contato-item-icon">📧</div>
+                    <div class="contato-item-text">
+                        <div class="contato-item-label">E-mail</div>
+                        <div class="contato-item-value"><a href="mailto:seu-email@example.com">seu-email@example.com</a></div>
+                    </div>
+                </div>
+                <div class="contato-item">
+                    <div class="contato-item-icon">💼</div>
+                    <div class="contato-item-text">
+                        <div class="contato-item-label">LinkedIn</div>
+                        <div class="contato-item-value"><a href="https://www.linkedin.com/in/joaovitorpinheiros/" target="_blank">linkedin.com/in/joaovitorpinheiros</a></div>
+                    </div>
+                </div>
+                <div class="contato-item">
+                    <div class="contato-item-icon">⚡</div>
+                    <div class="contato-item-text">
+                        <div class="contato-item-label">Disponibilidade</div>
+                        <div class="contato-item-value">Aberto a projetos freela</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>© 2025 João Santos · Hospedagem Web, WordPress & Desenvolvimento · Diamantina, MG</p>
+</footer>
+
+</body>
+</html>
